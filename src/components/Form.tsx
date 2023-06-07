@@ -57,6 +57,10 @@ function Form() {
     const newDataFilter = newData.filter((dataFilter) => dataFilter.Login !== id);
     setNewData(newDataFilter);
   };
+  const [checkbox, setCheckbox] = useState(false);
+  const handleClickCheck = () => {
+    const check = checkbox ? setCheckbox(false) : setCheckbox(true);
+  };
   return (
     <div>
       {
@@ -97,6 +101,12 @@ function Form() {
         )
         : <button onClick={ () => setButtons(true) }>Cadastrar nova senha</button>
       }
+      <label htmlFor="checkbox">Esconder senhas</label>
+      <input
+        id="checkbox"
+        type="checkbox"
+        onClick={ handleClickCheck }
+      />
       { newData[0].NomeDoServiço === '' && !newData[1]
         ? <p>nenhuma senha cadastrada</p>
         : newData.slice(1).map((datax, index) => (
@@ -117,7 +127,9 @@ function Form() {
               { datax.NomeDoServiço }
             </a>
             <p>{ datax.Login }</p>
-            <p>{ datax.Senha }</p>
+            { checkbox
+              ? <p>******</p>
+              : <p>{ datax.Senha }</p> }
           </div>
         ))}
     </div>
