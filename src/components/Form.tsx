@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Password from './Password';
+import { FormProps } from '../Types';
 // import Cadastrar from './Cadastrar';
 
 function Form() {
@@ -41,6 +42,7 @@ function Form() {
     Senha: '',
     URL: '',
   }]);
+
   const Cadastrar = () => {
     setNewData([...newData, data]);
     setData({
@@ -50,6 +52,10 @@ function Form() {
       URL: '',
     });
     setButtons(false);
+  };
+  const handleClickButton = (id: string) => {
+    const newDataFilter = newData.filter((dataFilter) => dataFilter.Login !== id);
+    setNewData(newDataFilter);
   };
   return (
     <div>
@@ -91,10 +97,18 @@ function Form() {
         )
         : <button onClick={ () => setButtons(true) }>Cadastrar nova senha</button>
       }
-      { !newData[1]
+      { newData[0].NomeDoServiço === '' && !newData[1]
         ? <p>nenhuma senha cadastrada</p>
         : newData.slice(1).map((datax, index) => (
           <div key={ index }>
+            <button
+              id={ datax.Login }
+              type="button"
+              data-testid="remove-btn"
+              onClick={ () => handleClickButton(datax.Login) }
+            >
+              X
+            </button>
             <a
               href={ datax.URL }
               target="_blank"
