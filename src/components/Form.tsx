@@ -79,24 +79,27 @@ function Form() {
       {
       buttons
         ? (
-          <form>
-            <label htmlFor="NomeDoServiço">Nome do serviço</label>
+          <form className="container">
+            <label className="label" htmlFor="NomeDoServiço">Nome do serviço</label>
             <input
+              className="inputs"
               id="NomeDoServiço"
               type="text"
               onChange={ changeName }
               value={ data.NomeDoServiço }
             />
-            <label htmlFor="Login">Login</label>
+            <label className="label" htmlFor="Login">Login</label>
             <input
+              className="inputs"
               id="Login"
               type="text"
               onChange={ changeLogin }
               value={ data.Login }
             />
-            <label htmlFor="Senha">Senha</label>
+            <label className="label" htmlFor="Senha">Senha</label>
             { passwordHide
               ? <input
+                  className="inputs"
                   id="Senha"
                   type="text"
                   minLength={ 8 }
@@ -105,6 +108,7 @@ function Form() {
                   value={ data.Senha }
               />
               : <input
+                  className="inputs"
                   id="Senha"
                   type="password"
                   minLength={ 8 }
@@ -112,9 +116,16 @@ function Form() {
                   onChange={ regexFunction }
                   value={ data.Senha }
               /> }
-            <label htmlFor="URL">URL</label>
-            <input id="URL" type="text" onChange={ changeURL } value={ data.URL } />
+            <label className="label" htmlFor="URL">URL</label>
+            <input
+              className="inputs"
+              id="URL"
+              type="text"
+              onChange={ changeURL }
+              value={ data.URL }
+            />
             <button
+              id="buttonHide"
               type="button"
               onClick={ handleClickHide }
               data-testid="show-hide-form-password"
@@ -122,25 +133,34 @@ function Form() {
               Mostrar senha
             </button>
             <Password senha={ password } />
-            {NomeDoServiço && Login && Senha
-              ? <button type="button" onClick={ Cadastrar }>Cadastrar</button>
-              : <button disabled>Cadastrar</button>}
-            <button onClick={ () => setButtons(false) }>Cancelar</button>
+            <div id="buttonsContainer">
+              {NomeDoServiço && Login && Senha
+                ? <button id="Cadastrar" type="button" onClick={ Cadastrar }>Cadastrar</button>
+                : <button id="Cadastrar" disabled>Cadastrar</button>}
+              <button id="Cancelar" onClick={ () => setButtons(false) }>Cancelar</button>
+            </div>
           </form>
         )
-        : <button onClick={ () => setButtons(true) }>Cadastrar nova senha</button>
+        : <button
+            id="buttonCadastrarNovaSenha"
+            onClick={ () => setButtons(true) }
+          >
+            Cadastrar nova senha
+          </button>
       }
-      <label htmlFor="checkbox">Esconder senhas</label>
+      <label htmlFor="checkbox" id="checkbox">Esconder senhas</label>
       <input
         id="checkbox"
         type="checkbox"
         onClick={ handleClickCheck }
       />
+      <div id="containerList">
       { newData[0].NomeDoServiço === '' && !newData[1]
         ? <p>nenhuma senha cadastrada</p>
         : newData.slice(1).map((datax, index) => (
-          <div key={ index }>
+          <div key={ index } id="passwordContainer">
             <button
+              className="buttonX"
               id={ datax.Login }
               type="button"
               data-testid="remove-btn"
@@ -149,18 +169,20 @@ function Form() {
               X
             </button>
             <a
+              id="link"
               href={ datax.URL }
               target="_blank"
               rel="noreferrer"
             >
               { datax.NomeDoServiço }
             </a>
-            <p>{ datax.Login }</p>
+            <p className="data">{ datax.Login }</p>
             { checkbox
-              ? <p>******</p>
-              : <p>{ datax.Senha }</p> }
+              ? <p className="data">******</p>
+              : <p className="data">{ datax.Senha }</p> }
           </div>
         ))}
+      </div>
     </div>
   );
 }
