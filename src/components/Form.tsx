@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 import Password from './Password';
 
 function Form() {
@@ -51,6 +52,13 @@ function Form() {
       URL: '',
     });
     setButtons(false);
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Serviço cadastrado com sucesso',
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
   const handleClickButton = (id: string) => {
     const newDataFilter = newData.filter((dataFilter) => dataFilter.Login !== id);
