@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import Password from './Password';
-import { FormProps } from '../Types';
-// import Cadastrar from './Cadastrar';
 
 function Form() {
   const [buttons, setButtons] = useState(false);
@@ -24,6 +22,7 @@ function Form() {
      && setValidation({ ...validation, Senha: true });
     setPassword(target.value);
     setData({ ...data, Senha: target.value });
+    return regexV;
   };
   const changeName = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setValidation({ ...validation, NomeDoServiço: true });
@@ -60,6 +59,12 @@ function Form() {
   const [checkbox, setCheckbox] = useState(false);
   const handleClickCheck = () => {
     const check = checkbox ? setCheckbox(false) : setCheckbox(true);
+    return check;
+  };
+  const [passwordHide, setPasswordHide] = useState(false);
+  const handleClickHide = () => {
+    const hide = passwordHide ? setPasswordHide(false) : setPasswordHide(true);
+    return hide;
   };
   return (
     <div>
@@ -82,17 +87,33 @@ function Form() {
               value={ data.Login }
             />
             <label htmlFor="Senha">Senha</label>
-            <input
-              id="Senha"
-              type="password"
-              minLength={ 8 }
-              maxLength={ 16 }
-              onChange={ regexFunction }
-              value={ data.Senha }
-            />
-            <Password senha={ password } />
+            { passwordHide
+              ? <input
+                  id="Senha"
+                  type="text"
+                  minLength={ 8 }
+                  maxLength={ 16 }
+                  onChange={ regexFunction }
+                  value={ data.Senha }
+              />
+              : <input
+                  id="Senha"
+                  type="password"
+                  minLength={ 8 }
+                  maxLength={ 16 }
+                  onChange={ regexFunction }
+                  value={ data.Senha }
+              /> }
             <label htmlFor="URL">URL</label>
             <input id="URL" type="text" onChange={ changeURL } value={ data.URL } />
+            <button
+              type="button"
+              onClick={ handleClickHide }
+              data-testid="show-hide-form-password"
+            >
+              Mostrar senha
+            </button>
+            <Password senha={ password } />
             {NomeDoServiço && Login && Senha
               ? <button type="button" onClick={ Cadastrar }>Cadastrar</button>
               : <button disabled>Cadastrar</button>}
